@@ -16,32 +16,39 @@ public class TicTacToe {
         currentPlayer = CellValue.X;
     }
 
-    public boolean makeMove(int row, int col) {
-        if (!isValidMove(row, col)) {
-            return false;
+    public boolean makeMove(int position) {
+        int row = position / 3;
+        int col = position % 3;
+        if (isValidMove(row, col)) {
+
+            board[row][col] = currentPlayer;
+            currentPlayer = currentPlayer.nextPlayer();
+            return true;
         }
-        board[row][col] = currentPlayer;
-        currentPlayer = currentPlayer.nextPlayer();
-        return true;
+        return false;
     }
 
     public boolean isValidMove(int row, int col) {
         return row >= 0 && row < 3 && col >= 0 && col < 3 && board[row][col] == CellValue.EMPTY;
     }
+
+    public CellValue getCurrentPlayer() {
+        return currentPlayer;
+    }
+
     public CellValue[][] getBoard() {
-        return board;
+      return board;
     }
 
 
     public CellValue getGameStatus() {
-        for (int row = 0; row < 3; row++) {
-
+       for (int row = 0; row < 3; row++) {
             if (board[row][0] != CellValue.EMPTY && board[row][0] == board[row][1] && board[row][1] == board[row][2]) {
                 return board[row][0];
             }
 
             if (board[0][row] != CellValue.EMPTY && board[0][row] == board[1][row] && board[1][row] == board[2][row]) {
-                return board[0][row];
+               return board[0][row];
             }
 
         }
@@ -62,12 +69,9 @@ public class TicTacToe {
             }
         }
         return CellValue.EMPTY;
-    }
+   }
 
 
-    public CellValue getCurrentPlayer() {
-        return currentPlayer;
-    }
 
     public void displayBoard() {
         for (int row = 0; row < 3; row++) {
